@@ -16,7 +16,7 @@
         <div class="product-display">
             <div class="product-container">
                 <div class="product-image">
-                    <img :src="image">
+                    <img :src="image" :class="{outOfStockImage: !inStock}">
                 </div>
             </div>
         </div>
@@ -33,10 +33,12 @@
                     {{ detail }}
                 </li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
-                {{ variant.color }} (Size: {{ variant.size}})
+            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)" 
+            class="color-circle" :style="{backgroundColor: variant.color}">
+                {{ variant.color }} ({{ variant.size}})
             </div>
-            <button class="button" @click="addToCart">Add to Cart</button>
+            <button class="button" @click="addToCart" 
+            :disabled="!inStock" :class="{disabledButton: !inStock}">Add to Cart</button>
             <button class="button" @click="toggleInStock">Toggle In stock</button>
         </div>
     </div>
@@ -44,5 +46,21 @@
     <!-- Import Js -->
     <script src="./main.js"></script>
 </body>
-
+<style>
+    .color-circle {
+        width: 50px;
+        height: 50px;
+        margin-top: 8px;
+        border: 2px solid #d8d8d8;
+        border-radius: 50%;
+    }
+    .disabledButton {
+        background-color: #d8d8d8;
+        cursor: not-allowed;
+    }
+    .outOfStockImage {
+        filter: grayscale(100%);
+        cursor: not-allowed;
+    }
+</style>
 </html>

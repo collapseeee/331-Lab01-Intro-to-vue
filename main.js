@@ -1,4 +1,4 @@
-const { createApp, ref } = Vue
+const { createApp, ref, computed } = Vue
 
 createApp({
     setup(){
@@ -6,10 +6,10 @@ createApp({
         const product = ref("Boots");
         const description = ref("This is the description.")
         // Task 3:
-        const image = ref('./assets/images/socks_green.jpg')
+        // const image = ref('./assets/images/socks_green.jpg')
         const link = ref("www.camt.cmu.ac.th")
         // Task 4:
-        const inStock = ref(true)
+        // const inStock = ref(true)
         const inventory = ref(11)
         const onSale = ref(true)
         // Task 5:
@@ -19,22 +19,43 @@ createApp({
             '20% polyester'
         ])
         const variants = ref([
-            {id: 2234, color: 'green', size:'M', image:'./assets/images/socks_green.jpg'},
-            {id: 2235, color: 'blue', size:'L', image:'./assets/images/socks_blue.jpg'}
+            {id: 2234, color: 'green', size:'M', image:'./assets/images/socks_green.jpg', quantity: 50},
+            {id: 2235, color: 'blue', size:'L', image:'./assets/images/socks_blue.jpg', quantity: 0}
         ])
         // Task 6:
         const cart = ref(0)
         function addToCart() {
             cart.value +=1;
         }
+        /*
         function updateImage(variantImage) {
             image.value = variantImage
         }
+            */
         function toggleInStock() {
             inStock.value = !inStock.value
         }
+        // Task 8:
+        const brand = ref('SE 331')
+        const title = computed(() => {
+            return brand.value + ' ' + product.value
+        })
+        const selectedVariant = ref(0)
+        function updateVariant(index) {
+            selectedVariant.value = index;
+        }
+        const image = computed(() => {
+            return variants.value[selectedVariant.value].image;
+        })
+        const inStock = computed(() => {
+            return variants.value[selectedVariant.value].quantity;
+        })
+        const onSaleText = computed(() => {
+            return brand.value + ' ' + product.value + ' is on sale!';
+        })
+
         return {
-            product,
+            // product,
             description,
 
             image,
@@ -49,8 +70,13 @@ createApp({
 
             cart,
             addToCart,
-            updateImage,
-            toggleInStock
+            // updateImage,
+            toggleInStock,
+
+            // brand,
+            title,
+            updateVariant,
+            onSaleText
         }
     }
 }).mount('#app')

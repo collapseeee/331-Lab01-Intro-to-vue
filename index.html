@@ -21,19 +21,19 @@
             </div>
         </div>
         <div class="product-info">
-            <h1><a :href="link">{{ product }}</a></h1>
+            <h1><a :href="link">{{ title }}</a></h1>
             <p v-if="!inStock">Out of Stock</p>
             <p v-else-if="inventory > 10">In stock</p>
             <p v-else-if="inventory <= 10 && inventory > 0">Almost out of stock</p>
             <p v-else>Out of stock</p>
             <p>{{ description }}</p>
-            <p v-if="onSale" style="color: red;">SALE!</p>
+            <p v-if="onSale" style="color: red;">{{ onSaleText }}</p>
             <ul>
                 <li v-for="detail in details">
                     {{ detail }}
                 </li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)" 
+            <div v-for="(variant,index in variants" :key="variant.id" @mouseover="updateVariant(index)" 
             class="color-circle" :style="{backgroundColor: variant.color}">
                 {{ variant.color }} ({{ variant.size}})
             </div>

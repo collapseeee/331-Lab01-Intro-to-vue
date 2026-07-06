@@ -12,8 +12,9 @@
 
 <body>
     <div id="app">
-        <div class="nav-bar">Cart {{cart}}</div>
-        <product-display :premium="premium"></product-display>
+        <div class="nav-bar">Cart: {{cartDisplay}}</div>
+        <product-display :premium="premium" :cart="cart" @add-to-cart="updateCart"
+            @remove-from-cart="removeFromCart"></product-display>
     </div>
 
     <!-- Import Js -->

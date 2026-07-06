@@ -22,6 +22,8 @@ const productDisplay = {
             </div>
             <button class="button" @click="addToCart" 
             :disabled="!inStock" :class="{disabledButton: !inStock}">Add to Cart</button>
+            <button class="button" @click="removeFromCart" 
+            :disabled="isEmptyCart" :class="{disabledButton: isEmptyCart}">Remove from Cart</button>
         </div>
     </div>
     `,
@@ -30,9 +32,10 @@ const productDisplay = {
     /* Script */
     // Task 9:
     props: {
-        premium: Boolean
+        premium: Boolean,
+        cart: Array
     },
-    setup(props){
+    setup(props, {emit}){
         // Task 2:
         const product = ref("Boots");
         // const description = ref("This is the description.")
@@ -54,10 +57,16 @@ const productDisplay = {
             {id: 2235, color: 'blue', image:'./assets/images/socks_blue.jpg', quantity: 0}
         ])
         // Task 6:
-        const cart = ref(0)
+        // const cart = ref(0)
         function addToCart() {
-            cart.value +=1;
+            emit('add-to-cart', variants.value[selectedVariant.value].id)
         }
+        function removeFromCart() {
+            emit('remove-from-cart', variants.value[selectedVariant.value].id)
+        }
+        const isEmptyCart = computed(() => {
+            return props.cart.length <= 0
+        })
         /*
         function updateImage(variantImage) {
             image.value = variantImage
@@ -108,6 +117,8 @@ const productDisplay = {
 
             // cart,
             addToCart,
+            removeFromCart,
+            isEmptyCart,
             // updateImage,
             // toggleInStock,
 

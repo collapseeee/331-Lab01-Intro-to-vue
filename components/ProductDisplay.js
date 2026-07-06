@@ -24,6 +24,8 @@ const productDisplay = {
             :disabled="!inStock" :class="{disabledButton: !inStock}">Add to Cart</button>
             <button class="button" @click="removeFromCart" 
             :disabled="isEmptyCart" :class="{disabledButton: isEmptyCart}">Remove from Cart</button>
+            <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+            <review-form @review-submitted="addReview"></review-form>
         </div>
     </div>
     `,
@@ -72,9 +74,10 @@ const productDisplay = {
             image.value = variantImage
         }
             */
-        function toggleInStock() {
+        /* function toggleInStock() {
             inStock.value = !inStock.value
         }
+            */
         // Task 8:
         const brand = ref('SE 331')
         const title = computed(() => {
@@ -100,6 +103,11 @@ const productDisplay = {
             }
             return 30
         })
+        // Task 11:
+        const reviews = ref([])
+        function addReview(review) {
+            reviews.value.push(review)
+        }
 
         return {
             // product,
@@ -127,7 +135,9 @@ const productDisplay = {
             updateVariant,
             // onSaleText,
 
-            shipping
+            shipping,
+            addReview,
+            reviews
         }
     }
 }
